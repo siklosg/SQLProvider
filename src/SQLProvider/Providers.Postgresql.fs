@@ -497,7 +497,7 @@ type internal PostgresqlProvider(resolutionPath, owner, referencedAssemblies) =
                                                           table_name,
                                                           table_type
                                                     FROM  information_schema.tables
-                                                   WHERE  table_schema = '%s'" PostgreSQL.owner) con
+                                                    WHERE  table_schema = ANY (CURRENT_SCHEMAS(false))") con
             [ while reader.Read() do
                 let table = { Schema = Sql.dbUnbox<string> reader.["table_schema"]
                               Name = Sql.dbUnbox<string> reader.["table_name"]
